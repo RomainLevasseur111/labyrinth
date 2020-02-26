@@ -7,19 +7,27 @@ class Position:
 
     def __hash__(self):
         return hash(self.position)
-
+#permits to compare two object
     def __eq__(self, pos):
         return self.position == pos.position
 
-
+#define what happens when moving
+    @property
     def up(self):
+        x, y = self.position
         return Position(x-1, y)
 
+    @property
     def down(self):
+        x, y = self.position
         return Position(x+1, y)
 
+    @property
     def left(self):
+        x, y = self.position
         return Position(x, y-1)
 
+    @property
     def right(self):
+        x, y = self.position
         return Position(x, y+1)

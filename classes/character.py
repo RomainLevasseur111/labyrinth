@@ -1,14 +1,22 @@
+
 class Character:
+    def __init__(self, map):
+        self.map = map
+        self.position = self.map.start
+        self.pos()
 
-1 peut se déplacer sur labyrinth (en utilisant des coordonnées)
-2 ne peut pas traverser les murs
-3 peut ramasser des objets
-    has_item1 = False
-    has_item2 = False
-    has_item3 = False
-    can_beat_ennemy = False
-        if has_item1 and has_item2 and has_item3 == True:
-            can_beat_ennemy = True
+#change map.start into a list so we can take the first (and only) element and compare it to map.empty
+    def pos(self):
+        self.position = list(self.position)[0]
 
-4 commence sur la case départ
-5 doit atteidnre la case arrivée avec les trois objets
+
+    def move(self, direction):
+        #get attribute of an object (here, up down left right of Position) and see if it a valid path
+        new_position = getattr(self.position, direction)
+        if new_position in self.map.empty:
+            self.position = new_position
+            # if the position of the character is the same as map.end, character wins
+            if self.position in self.map.end :
+                return print("You won!")
+        else:
+            print("Wrong direction!")
