@@ -10,6 +10,7 @@ class Labyrinth:
         self.wall = set()
         self.start = set()
         self.end = set()
+        self.spawnable = set()
         self.is_maze_valid()
         self.maze_structure()
 
@@ -45,6 +46,7 @@ class Labyrinth:
                 for y, char in enumerate(line):
                     if char == constants.EMPTY:
                         self.empty.add(Position(x, y))
+                        self.spawnable.add(Position(x, y))
                     elif char == constants.WALL:
                         self.wall.add(Position(x, y))
                     elif char == constants.START:

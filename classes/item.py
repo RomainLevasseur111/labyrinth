@@ -1,12 +1,16 @@
+import random
 class Item:
+    def __init__(self, map):
+        self.map = map
+        self.spawnable = map.spawnable
+        self.position = 0
+        self.spawn()
 
-1 apparait aléatoirement dans le labyrinthe (2 items ne peuvent être sur la même case)
-
-2 peut etre ramasser en se faisant marcher dessus
-    si character sur la meme case que Item:
-        character.has_itemX = True
-
-
-3 il y a 3 objets
-
-4 il faut que Character ait ramassé les trois pour gagner
+# method spawn takes a random piece of self.spawnable, set self.position to it
+#and then delete the position in self.spawnable so it cant be used by another item
+    def spawn(self):
+        self.position = random.sample(self.spawnable, 1)
+        if self.position[0] in self.spawnable:
+            self.spawnable.remove(self.position[0])
+        self.position = set(self.position)
+        print(self.position)
