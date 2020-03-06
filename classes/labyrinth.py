@@ -1,5 +1,6 @@
 import constants as constants
 from classes.position import Position
+import random
 class Labyrinth:
     VALID_MAZE = False
     def __init__(self, filename, maze_length=0):
@@ -10,13 +11,23 @@ class Labyrinth:
         self.wall = set()
         self.start = set()
         self.end = set()
-        self.spawnable = set()
+        self.items = set()
         self.is_maze_valid()
         self.maze_structure()
+        self.spawn()
+
+    def spawn(self):
+        while len(self.items) < 3 :
+            position = list(random.sample(self.empty, 1))[0]
+            if position not in self.start :
+                if position not in self.end :
+                    self.items.add(position)
+        print(self.items)
 
 # read a .txt file to verify if all lines are equals
 # that permits to not pre-define the size of the maze
 # and so we only need to change the .txt file if we want a bigger or smaller maze
+
     def is_maze_valid(self):
         #open .txt file
         with open(self.filename, "r") as f:
@@ -46,7 +57,6 @@ class Labyrinth:
                 for y, char in enumerate(line):
                     if char == constants.EMPTY:
                         self.empty.add(Position(x, y))
-                        self.spawnable.add(Position(x, y))
                     elif char == constants.WALL:
                         self.wall.add(Position(x, y))
                     elif char == constants.START:
@@ -55,10 +65,3 @@ class Labyrinth:
                     elif char == constants.END:
                         self.end.add(Position(x, y))
                         self.empty.add(Position(x, y))
-""" not usefull anymore ?
-    #take an object Position, and look if it is in empty set
-    #that means this is a cell taht can be reach
-    @property
-    def is_position_valid(self, position):
-        return position in self.empty
-"""

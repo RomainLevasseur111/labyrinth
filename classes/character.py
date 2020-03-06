@@ -1,9 +1,8 @@
 
 class Character:
     HAS_ITEM = 0
-    def __init__(self, map, item):
+    def __init__(self, map):
         self.map = map
-        self.item = item
         self.position = self.map.start
         self.pos()
 
@@ -11,6 +10,10 @@ class Character:
     def pos(self):
         self.position = list(self.position)[0]
 
+    def take_item(self):
+        if self.position in self.map.items:
+            self.map.items.remove(self.position)
+            self.HAS_ITEM += 1
 
     def move(self, direction):
         #get attribute of an object (here, up down left right of Position) and see if it a valid path
@@ -18,7 +21,7 @@ class Character:
         if new_position in self.map.empty:
             self.position = new_position
             # if the position of the character is the same as map.end, character wins
-            take_item()
+            self.take_item()
             if self.position in self.map.end :
                 if self.HAS_ITEM == 3:
                     return print("You won!")
@@ -27,8 +30,5 @@ class Character:
         else:
             print("Wrong direction!")
 
-    def take_item(self):
-        if self.position == self.item.position:
-            delete(item)
-            HAS_ITEM += 1
+
 # def set_map avec tout _init_ dedans
