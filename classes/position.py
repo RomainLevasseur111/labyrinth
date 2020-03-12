@@ -7,7 +7,7 @@ class Position:
 
     def __hash__(self):
         return hash(self.position)
-#permits to compare two object
+#permits to compare two instances of position
     def __eq__(self, pos):
         return self.position == pos.position
 

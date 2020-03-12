@@ -21,7 +21,7 @@ class Character:
 
     def move(self, direction):
         #get attribute of an object (here, up down left right of Position) and see if it a valid path
-        new_position = getattr(self.position, direction)
+        new_position = direction
         if new_position in self.map.empty:
             self.position = new_position
             # if the position of the character is the same as map.end,and if HAS_ITEM = 3 character wins

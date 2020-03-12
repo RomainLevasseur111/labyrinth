@@ -1,5 +1,4 @@
 import constants as constants
-from classes.position import Position
 import random
 import pygame
 from pygame.locals import *
@@ -12,17 +11,13 @@ class Labyrinth:
         self.maze_length = maze_length
         # using sets because it cannot store the same value twice
         self.empty = set()
-        self.empty_img = set()
         self.wall = set()
-        self.wall_img = set()
         self.start = set()
-        self.start_img = set()
         self.end = set()
-        self.end_img = set()
         self.items = set()
         self.is_maze_valid()
         self.maze_structure()
-        self.spawn()
+        #self.spawn()
 #while there is less than 3 items in self.items, it takes a random part of self.empty
 #that is not in self.end and self.start, and add it to self.items
 
@@ -32,7 +27,7 @@ class Labyrinth:
 
 
 
-    def spawn(self):
+    #def spawn(self):
         while len(self.items) < 3 :
             position = list(random.sample(self.empty, 1))[0]
             if position not in self.start :
@@ -70,16 +65,10 @@ class Labyrinth:
                 #take each char of a line and give it a number
                 for y, char in enumerate(line):
                     if char == constants.EMPTY:
-                        self.empty.add(Position(x, y))
-                        self.empty_img.add((y * 20, x * 20))
+                        self.empty.add((y * 20, x * 20))
                     elif char == constants.WALL:
-                        self.wall.add(Position(x, y))
-                        self.wall_img.add((y * 20, x * 20))
+                        self.wall.add((y * 20, x * 20))
                     elif char == constants.START:
-                        self.start.add(Position(x, y))
-                        self.start_img.add((y * 20, x * 20))
-                        self.empty.add(Position(x, y))
+                        self.start.add((y * 20, x * 20))
                     elif char == constants.END:
-                        self.end.add(Position(x, y))
-                        self.end_img.add((y * 20, x * 20))
-                        self.empty.add(Position(x, y))
+                        self.end.add((y * 20, x * 20))
