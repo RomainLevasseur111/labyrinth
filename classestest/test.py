@@ -21,7 +21,7 @@ def main():
     pygame.display.set_caption("Labyrinth")
     map01 = Labyrinth("maps/map1.txt")
     mac = Character(map01, "resources/MacGyver.png")
-    pos_to_px(map01)
+    maze(map01)
     while True:
         up = (mac.position[0] - 20, mac.position[1])
         down = (mac.position[0] + 20, mac.position[1])
