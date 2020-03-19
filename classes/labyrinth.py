@@ -7,31 +7,21 @@ from pygame.locals import *
 
 class Labyrinth:
     VALID_MAZE = False
-    def __init__(self, filename, maze_length=0):
+    def __init__(self, filename, maze_length=0, maze_height=0):
         self.filename = filename
         self.maze_length = maze_length
+        self.maze_height = maze_height
         # using sets because it cannot store the same value twice
         self.empty = set()
-        self.empty_img = set()
         self.wall = set()
-        self.wall_img = set()
         self.start = set()
-        self.start_img = set()
         self.end = set()
-        self.end_img = set()
         self.items = set()
         self.is_maze_valid()
         self.maze_structure()
         self.spawn()
 #while there is less than 3 items in self.items, it takes a random part of self.empty
 #that is not in self.end and self.start, and add it to self.items
-
-    def display(self, wall, path):
-        self.empty = pygame.image.load(path).convert()
-        self.wall = pygame.image.load(wall).convert()
-
-
-
     def spawn(self):
         while len(self.items) < 3 :
             position = list(random.sample(self.empty, 1))[0]
@@ -47,14 +37,16 @@ class Labyrinth:
             #read the first line that define the length of the all maze
             #and put it in maze_length
             self.maze_length = len(f.readline().rstrip())
+            self.maze_height = 1
             #loop reading length of all lines
             for line in f:
+                self.maze_height += 1
                 #condition that compare the length of each line to maze_length
                 #and if there is only one start and end
                 #stop the program in not equal
 
                 if len(line.rstrip()) != self.maze_length:
-                    raise Exception("Your maze must be a square")
+                    raise Exception("Your maze must be a square or rectangle")
                 elif len(self.start) and len(self.end) != 1 :
                     raise Exception("There must be only one start and end")
                 else :
@@ -71,15 +63,11 @@ class Labyrinth:
                 for y, char in enumerate(line):
                     if char == constants.EMPTY:
                         self.empty.add(Position(x, y))
-                        self.empty_img.add((y * 20, x * 20))
                     elif char == constants.WALL:
                         self.wall.add(Position(x, y))
-                        self.wall_img.add((y * 20, x * 20))
                     elif char == constants.START:
                         self.start.add(Position(x, y))
-                        self.start_img.add((y * 20, x * 20))
                         self.empty.add(Position(x, y))
                     elif char == constants.END:
                         self.end.add(Position(x, y))
-                        self.end_img.add((y * 20, x * 20))
                         self.empty.add(Position(x, y))

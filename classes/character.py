@@ -2,8 +2,7 @@ import pygame
 from pygame.locals import *
 class Character:
     HAS_ITEM = 0
-    def __init__(self, map, img):
-        self.img = pygame.image.load(img).convert_alpha()
+    def __init__(self, map):
         self.map = map
         self.position = self.map.start
         self.pos()
