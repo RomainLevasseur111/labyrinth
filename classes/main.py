@@ -31,8 +31,9 @@ def main():
         char = pygame.transform.scale(char, (20, 20))
         x, y = mac.position.position
         x, y = x * 20, y * 20
+        DISPLAYSURF.fill((0, 0, 0))
+        not_moving_img()
         DISPLAYSURF.blit(char, (y, x))
-
 
     def not_moving_img():
         img_path = pygame.image.load("resources/floor-tiles-20x20.png")
@@ -57,6 +58,17 @@ def main():
             x, y = x * 20, y * 20
             DISPLAYSURF.blit(img_path, (y, x) , (120, 240, 20, 20))
 
+    def win_or_lose(char, map):
+        lose_screen = pygame.image.load("resources/lose.png")
+        if char.position in map.end:
+            if char.ITEM == 3:
+                pass
+                #surface.blit victory screen
+            #else:
+            #    DISPLAYSURF.blit(lose_screen,(0, 0))
+            #    pygame.time.wait(10000)
+            #    pygame.quit()
+            #    sys.exit()
 
     pygame.init()
     DISPLAYSURF = pygame.display.set_mode((300, 300))
@@ -67,6 +79,7 @@ def main():
     img_char()
     img_items()
     while True:
+        win_or_lose(mac, map01)
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
