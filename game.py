@@ -69,7 +69,7 @@ def main():
     # losing screen
     def win_or_lose(char, map):
         if char.position in map.end:
-            if char.ITEM == 3:
+            if constants.ITEM == 3:
                 constants.GAME += 2
             else:
                 constants.GAME += 1
