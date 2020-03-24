@@ -7,11 +7,12 @@ class Position:
 
     def __hash__(self):
         return hash(self.position)
-#permits to compare two instances of position
+
+# permits to compare two instances of position
     def __eq__(self, pos):
         return self.position == pos.position
 
-#define what happens when moving
+# define what happens when moving
     @property
     def up(self):
         x, y = self.position
