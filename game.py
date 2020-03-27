@@ -8,33 +8,40 @@ from pygame.locals import *
 
 
 def main():
-    # loading 3 different image for 3 different items and resizing them
     def img_items():
+        """Load 3 images, resize them and put them into a list."""
         needle = pygame.image.load("resources/aiguille.png").convert_alpha()
         needle = pygame.transform.scale(needle, (20, 20))
         ether = pygame.image.load("resources/ether.png").convert()
         ether = pygame.transform.scale(ether, (20, 20))
         plastic_tube = pygame.image.load("resources/tube.png").convert()
         plastic_tube = pygame.transform.scale(plastic_tube, (20, 20))
-        # into a list
         imgs = [needle, ether, plastic_tube]
 
-        # take a random item in list and delete it
         def random_img():
+            """Set an image to an item
+
+            Take a random image in the list then delete it.
+            Then loop in the list, for each loop, set images to items
+            and then put them on the screen.
+
+             """
             while imgs:
                 elem = random.choice(imgs)
                 imgs.remove(elem)
                 return elem
-        # for each loop in random_img, gives it a position and adding it to the
-        # screen
-        for position in map01.items:
+        for position in map.items:
             x, y = position.position
             x, y = x * 20, y * 20
             DISPLAYSURF.blit(random_img(), (y, x))
 
-    # loading character img and add it to the screen
-    # and take older position of char and gives it its original image
     def img_char():
+        """Display the character
+
+        Load character image and add it to the screen, on character position.
+        Take character older position, and change it to path image.
+
+        """
         img_path = pygame.image.load("resources/floor-tiles-20x20.png")
         char = pygame.image.load("resources/MacGyver.png").convert_alpha()
         char = pygame.transform.scale(char, (20, 20))
@@ -45,68 +52,81 @@ def main():
         x, y = x * 20, y * 20
         DISPLAYSURF.blit(char, (y, x))
 
-    # loading differents tiles representing path, wall, and ennemy
     def not_moving_img():
+        """Load and display differents tiles representing path, wall, and ennemy."""
         img_path = pygame.image.load("resources/floor-tiles-20x20.png")
         img_ennemy = pygame.image.load("resources/Gardien.png")
         img_ennemy = pygame.transform.scale(img_ennemy, (20, 20))
-        for position in map01.empty:
+        for position in map.empty:
             x, y = position.position
             x, y = x * 20, y * 20
             DISPLAYSURF.blit(img_path, (y, x), (60, 240, 20, 20))
 
-        for position in map01.wall:
+        for position in map.wall:
             x, y = position.position
             x, y = x * 20, y * 20
             DISPLAYSURF.blit(img_path, (y, x), (80, 180, 20, 20))
 
-        for position in map01.end:
+        for position in map.end:
             x, y = position.position
             x, y = x * 20, y * 20
             DISPLAYSURF.blit(img_ennemy, (y, x))
 
-    # if char has 3 items and is one end position, display winning screen, else
-    # losing screen
     def win_or_lose(char, map):
+        """Win or lose display
+
+        if the character position is equal to map end position, check if
+        item constant is equat to 3, if it is, the player wins and the
+        victory screen is display, by setting the game constant to 2.
+        If it is not equal to 3, display losing screen by setting game
+        constant to 1.
+
+        """
         if char.position in map.end:
             if constants.ITEM == 3:
                 constants.GAME += 2
             else:
                 constants.GAME += 1
 
-    # load win and lose screen
     def win_back():
+        """Load win screen."""
         win_img = pygame.image.load("resources/win.png")
         DISPLAYSURF.blit(win_img, (0, 0))
 
     def lose_back():
+        """Load lose screen."""
         lose_img = pygame.image.load("resources/lose.png")
         DISPLAYSURF.blit(lose_img, (0, 0))
 
-    # initialize pygame
     pygame.init()
-    # set size of screen
+    """Start Pygame."""
     DISPLAYSURF = pygame.display.set_mode((300, 300))
-    # names window
+    """Set size of the screen."""
     pygame.display.set_caption("Labyrinth")
-    # create map and character
-    map01 = Labyrinth("maps/map1.txt")
-    mac = Character(map01)
-    # calling all images
+    """Name the Pygame window."""
+    map = Labyrinth("maps/map1.txt")
+    mac = Character(map)
+    """Create character and labyrinth object from their respectives classes."""
     not_moving_img()
     img_char()
     img_items()
-    # playing game loop
     while constants.GAME == 0:
-        win_or_lose(mac, map01)
-        # each time we click quit, stops pygame and quit the game
+        """Start game loop."""
+        win_or_lose(mac, map)
         for event in pygame.event.get():
+            """If we click quit button, quit Pygame and exit system"""
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-            # each time up, down, left and right arrow is pressed,
-            # call method move from character
             elif event.type == KEYDOWN:
+                """Events to move character
+
+                When an arrow key is pressed, call the character method move, that
+                call the position method up, down ,right and left according to
+                the pressed key.
+                Then call the img_char() function to display character image.
+
+                """
                 if event.key == K_UP:
                     mac.move("up")
                     img_char()
@@ -119,9 +139,9 @@ def main():
                 if event.key == K_RIGHT:
                     mac.move("right")
                     img_char()
-        # updates whats on the screen
+
         pygame.display.update()
-    # lose loop that quit for each key pressed on keyboard
+        """Update what is display on the screen"""
     while constants.GAME == 1:
         lose_back()
         for event in pygame.event.get():
@@ -132,7 +152,6 @@ def main():
                 pygame.quit()
                 sys.exit()
         pygame.display.update()
-    # win loop that qui for each key pressed on keyboard
     while constants.GAME == 2:
         win_back()
         for event in pygame.event.get():
@@ -143,6 +162,6 @@ def main():
                 pygame.quit()
                 sys.exit()
         pygame.display.update()
-
+    """When the win or lose screen is displayed, quit the game for any key pressed """
 
 main()

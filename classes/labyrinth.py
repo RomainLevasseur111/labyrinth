@@ -10,7 +10,6 @@ class Labyrinth:
         self.filename = filename
         self.maze_length = maze_length
         self.maze_height = maze_height
-        # using sets because it cannot store the same value twice
         self.empty = set()
         self.wall = set()
         self.start = set()
@@ -20,33 +19,40 @@ class Labyrinth:
         self.maze_structure()
         self.spawn()
 
-# while there is less than 3 items in self.items, it takes a random part of
-# self.empty that is not in self.end and self.start, and add it to self.items
     def spawn(self):
+        """Spawn items
+
+        As long as self.items length if below 3, take a random position object
+        of self.empty that is not in self.start or self.end and add it to
+        self.items
+
+        """
         while len(self.items) < 3:
             position = list(random.sample(self.empty, 1))[0]
             if position not in self.start:
                 if position not in self.end:
                     self.items.add(position)
 
-# read a .txt file to verify if all lines are equals
-# that permits to not pre-define the size of the maze
-# and so we only need to change the .txt file if we want a bigger or smaller
-# maze
     def is_maze_valid(self):
-        # open .txt file
+        """Check if map.txt file is valid
+
+        first open txt file, count how long is the first line without the /n
+        set attribute maze_length to this number. Then read all other lines,
+        if they have the same lentgh as the first line, length is valid.
+
+        Count the number of lines.
+
+        Look in self.start and self.end if there is only one value, so this
+        means there is only one start and one end, and that the txt file is
+        valid.
+
+
+        """
         with open(self.filename, "r") as f:
-            # read the first line that define the length of the all maze
-            # and put it in maze_length
             self.maze_length = len(f.readline().rstrip())
             self.maze_height = 1
-# loop reading length of all lines
-# adding 1 for each line to count the number of lines
             for line in f:
                 self.maze_height += 1
-# condition that compare the length of each line to maze_length
-# and if there is only one start and end
-# stop the program in not equal
                 if len(line.rstrip()) != self.maze_length:
                     raise Exception("Your maze must be a square or rectangle")
                 elif len(self.start) and len(self.end) != 1:
@@ -54,14 +60,22 @@ class Labyrinth:
                 else:
                     self.VALID_MAZE = True
 
-# define what type of cell will be each character or map.txt
-# by creating a new object Position for each char and put it in the
-# corresponding set using doule loop for
     def maze_structure(self):
+        """Build the maze
+
+        In constants, we define what means each character in map.txt (here,
+        1 = empty, 0 = wall, 2 = start, and 3 = end). Then add them is each
+        corresponding property of the labyrinth object.
+
+        Start with opening txt file, for each line, read each character and
+        for each character, give it a number (x) and for each line, gives it
+        another number (y), put both in a tuple (x, y) and creates a Position
+        object for each tuple, and eventually put them in corresponding
+        sets. (self.empty, self.wall, self.end, self.start.)
+
+        """
         with open(self.filename, "r") as f:
-            # take line by line and give it a number (starting from 0)
             for x, line in enumerate(f):
-                # take each char of a line and give it a number
                 for y, char in enumerate(line):
                     if char == constants.EMPTY:
                         self.empty.add(Position(x, y))
