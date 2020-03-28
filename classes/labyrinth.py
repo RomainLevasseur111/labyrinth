@@ -4,12 +4,10 @@ import random
 
 
 class Labyrinth:
-    VALID_MAZE = False
-    def __init__(self, filename, maze_length=0, maze_height=0):
+    def __init__(self, filename, maze_length=0):
 
         self.filename = filename
         self.maze_length = maze_length
-        self.maze_height = maze_height
         self.empty = set()
         self.wall = set()
         self.start = set()
@@ -57,8 +55,6 @@ class Labyrinth:
                     raise Exception("Your maze must be a square or rectangle")
                 elif len(self.start) and len(self.end) != 1:
                     raise Exception("There must be only one start and end")
-                else:
-                    self.VALID_MAZE = True
 
     def maze_structure(self):
         """Build the maze

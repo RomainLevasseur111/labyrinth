@@ -7,11 +7,6 @@ class Character:
         self.position = list(self.map.start)[0]
         self.older_position = list(self.map.start)[0]
 
-    def pos(self):
-        """Take position of char and change it so we can compare it"""
-        self.position = list(self.position)[0]
-        self.older_position = list(self.older_position)[0]
-
     def take_item(self):
         """Character takes item
 
