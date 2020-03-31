@@ -8,6 +8,14 @@ from pygame.locals import *
 
 
 def main():
+
+    def display_taken_items():
+        img_path = pygame.image.load("resources/floor-tiles-20x20.png")
+        myfont = pygame.font.SysFont("monospace", 12)
+        item_taken = myfont.render("Item taken :" + str(constants.ITEM), 1, (255,255,255))
+        DISPLAYSURF.blit(img_path, (80, 280), (80, 180, 20, 20))
+        DISPLAYSURF.blit(item_taken, (0, 290))
+
     def img_items():
         """Load 3 images, resize them and put them into a list."""
         needle = pygame.image.load("resources/aiguille.png").convert_alpha()
@@ -110,6 +118,7 @@ def main():
     not_moving_img()
     img_char()
     img_items()
+    display_taken_items()
     while constants.GAME == 0:
         """Start game loop."""
         win_or_lose(mac, map)
@@ -130,15 +139,19 @@ def main():
                 if event.key == K_UP:
                     mac.move("up")
                     img_char()
+                    display_taken_items()
                 if event.key == K_DOWN:
                     mac.move("down")
                     img_char()
+                    display_taken_items()
                 if event.key == K_LEFT:
                     mac.move("left")
                     img_char()
+                    display_taken_items()
                 if event.key == K_RIGHT:
                     mac.move("right")
                     img_char()
+                    display_taken_items()
 
         pygame.display.update()
         """Update what is display on the screen"""
